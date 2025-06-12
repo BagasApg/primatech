@@ -55,7 +55,7 @@
 
                                 </div>
                                 <div class="d-flex justify-content-center w-100 pt-3">
-                                    <a href="/register">Daftar</a>
+                                    <a href="/register" class="text-decoration-none">Daftar</a>
                                 </div>
                             </div>
                         </form>
