@@ -21,6 +21,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'date_of_birth',
+        'gender',
+        'address',
+        'city',
+        'contact',
+        'paypal_id',
     ];
 
     /**

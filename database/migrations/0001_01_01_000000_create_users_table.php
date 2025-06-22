@@ -15,8 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->date('date_of_birth');
+            $table->enum('gender', ['male', 'female']);
+            $table->string('address');
+            $table->string('city');
+            $table->string('contact');
+            $table->string('paypal_id');
             $table->rememberToken();
             $table->timestamps();
         });

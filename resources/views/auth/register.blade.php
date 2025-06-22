@@ -8,7 +8,6 @@
                     <div class="card-body">
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
-
                             <div class="row mb-4 d-flex justify-content-center">
                                 <div class="card col-md-7">
                                     <div class="card-body px-0 py-2">
@@ -24,7 +23,7 @@
                                         class="form-control @error('username') is-invalid @enderror" name="username"
                                         value="{{ old('username') }}" required autocomplete="username" autofocus>
 
-                                    @error('name')
+                                    @error('username')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -97,13 +96,13 @@
                                 <label for="gender" class="col-md-4 col-form-label text-md-end">Gender</label>
                                 <div class="col-md-7 d-flex align-items-center">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                            id="inlineRadio1" value="male">
+                                        <input class="form-check-input" type="radio" name="gender" id="inlineRadio1"
+                                            value="male">
                                         <label class="form-check-label" for="inlineRadio1">Male</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                            id="inlineRadio2" value="female">
+                                        <input class="form-check-input" type="radio" name="gender" id="inlineRadio2"
+                                            value="female">
                                         <label class="form-check-label" for="inlineRadio2">Female</label>
                                     </div>
 
@@ -118,14 +117,29 @@
                             </div>
 
                             <div class="row mb-3">
+                                <label for="province_id" class="col-md-4 col-form-label text-md-end">Province</label>
+                                <div class="col-md-7">
+                                    <select name="province_id" id="province_id" class="form-select">
+
+                                        {{-- LIST PROVINSI --}}
+                                        <option selected>Choose Province</option>
+                                        @foreach ($provinces as $province)
+                                            <option value="{{ $province->kode }}">{{ $province->nama }}</option>
+                                        @endforeach
+                                        {{-- LIST PROVINSI --}}
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
                                 <label for="city" class="col-md-4 col-form-label text-md-end">City</label>
                                 <div class="col-md-7">
                                     <select name="city" id="city" class="form-select">
 
                                         {{-- LIST KOTA --}}
 
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
+                                        <option selected>Choose City</option>
 
                                         {{-- LIST KOTA --}}
 
@@ -154,7 +168,7 @@
                                     </button>
                                 </div>
                                 <div class="d-flex justify-content-center w-100 pt-3 ">
-                                    <a href="/login" class="text-decoration-none">Login</a>
+                                    <a href="{{ route('login') }}" class="text-decoration-none">Login</a>
                                 </div>
                             </div>
                         </form>
@@ -163,4 +177,37 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#province_id").change(function(e) {
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                const province_id = $("#province_id").val();
+                console.log(province_id)
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('register.province') }}",
+                    data: {
+                        province_id: province_id
+                    },
+                    cache: false,
+
+                    success: function(response) {
+                        $("#city").html(response);
+                    },
+                    error: function(data) {
+                        console.error(data);
+                    }
+                });
+
+            });
+        })
+    </script>
 @endsection
