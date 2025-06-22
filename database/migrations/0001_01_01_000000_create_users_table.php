@@ -19,7 +19,11 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->enum('gender', ['male', 'female']);
             $table->string('address');
-            $table->string('city');
+
+            $table->string('province_id');
+
+            $table->string('city_id');
+
             $table->string('contact');
             $table->string('paypal_id');
             $table->rememberToken();

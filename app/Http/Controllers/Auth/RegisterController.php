@@ -10,7 +10,9 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Termwind\Components\Raw;
 
 class RegisterController extends Controller
 {
@@ -81,13 +83,13 @@ class RegisterController extends Controller
             'DOB' => ['required'],
             'gender' => ['required'],
             'address' => ['required', 'string', 'max:255'],
-            'city' => ['required'],
+            'province_id' => ['required'],
+            'city_id' => ['required'],
             'contact' => ['required', 'string'],
             'paypal' => ['required', 'string']
         ]);
 
-
-        // dd($request);
+        // dd($request->province_id);
 
         User::create([
             'name' => $request['username'],
@@ -96,7 +98,8 @@ class RegisterController extends Controller
             'date_of_birth' => $request['DOB'],
             'gender' => $request['gender'],
             'address' => $request['address'],
-            'city' => $request['city'],
+            'province_id' => $request['province_id'],
+            'city_id' => $request['city_id'],
             'contact' => $request['contact'],
             'paypal_id' => $request['paypal'],
         ]);
@@ -108,8 +111,7 @@ class RegisterController extends Controller
     {
         $province_id = $request->input('province_id');
 
-        $cities = Wilayah::whereRaw('kode = 37 AND LENGTH(kode) < 6')->get();
-        dd($cities);
+        $cities = Wilayah::where('kode', 'like', $province_id . '.%')->whereRaw("LENGTH(kode) = LENGTH('$province_id.00')")->get();
 
         foreach ($cities as $data) {
             echo "<option value='$data[kode]'>$data[nama]</option>";

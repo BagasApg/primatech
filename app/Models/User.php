@@ -24,6 +24,8 @@ class User extends Authenticatable
         'date_of_birth',
         'gender',
         'address',
+        'province_id',
+        'city_id',
         'city',
         'contact',
         'paypal_id',

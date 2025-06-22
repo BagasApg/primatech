@@ -133,9 +133,9 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="city" class="col-md-4 col-form-label text-md-end">City</label>
+                                <label for="city_id" class="col-md-4 col-form-label text-md-end">City</label>
                                 <div class="col-md-7">
-                                    <select name="city" id="city" class="form-select">
+                                    <select name="city_id" id="city_id" class="form-select">
 
                                         {{-- LIST KOTA --}}
 
@@ -189,7 +189,6 @@
                 });
 
                 const province_id = $("#province_id").val();
-                console.log(province_id)
 
                 $.ajax({
                     type: "POST",
@@ -200,7 +199,7 @@
                     cache: false,
 
                     success: function(response) {
-                        $("#city").html(response);
+                        $("#city_id").html(response);
                     },
                     error: function(data) {
                         console.error(data);
