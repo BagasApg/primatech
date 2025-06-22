@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\Gender;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserProfiles;
+use App\Models\Wilayah;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use Termwind\Components\Raw;
 
 class RegisterController extends Controller
 {
@@ -43,17 +50,24 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array  $request
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
+    // protected function validator(array $request)
+    // {
+    //     dd("oit");
+    //     return Validator::make($request, [
+    //         'username' => ['required', 'string', 'max:255'],
+    //         'password' => ['required', 'string', 'min:8', 'confirmed'],
+    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+    //         'date_of_birth' => ['required', 'date'],
+    //         'gender' => ['required', Rule::enum(Gender::class)],
+    //         'address' => ['required', 'string', 'max:255'],
+    //         'city' => ['required'],
+    //         'contact' => ['required', 'string'],
+    //         'paypal' => ['required', 'string']
+    //     ]);
+    // }
 
     /**
      * Create a new user instance after a valid registration.
@@ -61,12 +75,53 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function store(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+        // validate input form
+        $this->validate($request, [
+            'username' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'DOB' => ['required'],
+            'gender' => ['required'],
+            'address' => ['required', 'string', 'max:255'],
+            'province_id' => ['required'],
+            'city_id' => ['required'],
+            'contact' => ['required', 'string'],
+            'paypal' => ['required', 'string']
         ]);
+
+        // create an new account 
+        $user = new User();
+        $user->name = $request->username;
+        $user->password = $request->password;
+        $user->save();
+
+        // create the user profile for new account
+        $user_profiles = new UserProfiles();
+        $user_profiles->user_id = $user->id;
+        $user_profiles->email = $request->email;
+        $user_profiles->date_of_birth = $request->DOB;
+        $user_profiles->gender = $request->gender;
+        $user_profiles->address = $request->address;
+        $user_profiles->provice_id = $request->province_id;
+        $user_profiles->city_id = $request->city_id;
+        $user_profiles->contact = $request->contact;
+        $user_profiles->paypal_id = $request->paypal;
+        $user_profiles->save();
+
+
+        return redirect()->route('login')->with('success', "Successfully create new account, please login correctly");
+    }
+
+    public function province(Request $request)
+    {
+        $province_id = $request->input('province_id');
+
+        $cities = Wilayah::where('kode', 'like', $province_id . '.%')->whereRaw("LENGTH(kode) = LENGTH('$province_id.00')")->get();
+
+        foreach ($cities as $data) {
+            echo "<option value='$data[kode]'>$data[nama]</option>";
+        }
     }
 }
