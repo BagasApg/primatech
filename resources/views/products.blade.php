@@ -12,7 +12,7 @@
                 <div class="row">
                     @for ($i = 0; $i < 10; $i++)
                         <div class="col-md-4 px-4">
-                            <a href="/product/{{ $i+1029 }}" class="text-decoration-none">
+                            <a href="/product/{{ $i + 1029 }}" class="text-decoration-none">
                                 <div class="card bg-white mb-4 shadow-sm rounded-3">
                                     <div class="card-body">
                                         <div class="product-image ratio ratio-1x1 mb-2">
@@ -25,7 +25,6 @@
                                         <p class="fs-5 mb-2">Product {{ $i }} with extra supplement enhanced for
                                             well
                                             being includes spray of hygienation</p>
-                                        <p class="fs-5 text-body-secondary m-0">Stok {{ $i * 9 }}</p>
                                         <p class="fs-4">@currency(($i + 1) * 11900)</p>
                                     </div>
                                 </div>
@@ -39,16 +38,16 @@
                 <div class="card mx-4 bg-white shadow-sm">
                     <div class="card-body">
                         <h4 class="mb-4">Categories</h4>
-                        <p>Food</p>
-                        <p>Food</p>
-                        <p>Food</p>
-                        <p>Food</p>
-                        <p>Food</p>
-                        <p>Food</p>
-                        <p>Food</p>
+
+                        
+                        <p class="fs-5">Anak-anak</p>
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+                        {{-- @for($i = 1; $i <= 4; $i++)
+                        @endfor --}}
