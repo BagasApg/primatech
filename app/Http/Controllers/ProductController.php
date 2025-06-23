@@ -19,4 +19,8 @@ class ProductController extends Controller
     public function showProduct(){
         return view('product');
     }
+
+    public function showProduct(){
+        return view('product');
+    }
 }
