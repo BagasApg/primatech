@@ -20,8 +20,6 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'password',
-<<<<<<< HEAD
-<<<<<<< HEAD
         'date_of_birth',
         'gender',
         'address',
@@ -30,12 +28,7 @@ class User extends Authenticatable
         'city',
         'contact',
         'paypal_id',
-=======
         'role',
->>>>>>> feature/product
-=======
-        'role',
->>>>>>> 7f2f9dd590997c248f6ad67f48e846718cea7fda
     ];
 
     /**

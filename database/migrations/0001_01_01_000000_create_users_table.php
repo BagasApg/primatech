@@ -14,28 +14,8 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-<<<<<<< HEAD
-<<<<<<< HEAD
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->date('date_of_birth');
-            $table->enum('gender', ['male', 'female']);
-            $table->string('address');
-
-            $table->string('province_id');
-
-            $table->string('city_id');
-
-            $table->string('contact');
-            $table->string('paypal_id');
-=======
             $table->string('password');
             $table->string('role')->default("user");
->>>>>>> feature/product
-=======
-            $table->string('password');
-            $table->string('role')->default("user");
->>>>>>> 7f2f9dd590997c248f6ad67f48e846718cea7fda
             $table->rememberToken();
             $table->timestamps();
         });
