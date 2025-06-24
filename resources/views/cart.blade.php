@@ -30,13 +30,16 @@
                             $total_price += $cart->product->price * $cart->qty;
                         @endphp
                     @empty
-                        <span>Kerangjang Kosong</span>
                     @endforelse
                 </table>
                 <div class="d-flex justify-content-between align-items-center">
                     <p class="fs-5">Total Belanja (termasuk pajak): <span class="text-decoration-underline">
                             @currency($total_price)</span></p>
-                    <button class="btn btn-primary">Order & Print PDF</button>
+                    <form action="{{ route('order.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="grand_total" value="{{ $total_price }}">
+                        <button class="btn btn-primary" type="submit">Order & Print PDF</button>
+                    </form>
                 </div>
             </div>
         </div>
