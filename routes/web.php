@@ -20,4 +20,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/products', [ProductController::class, 'index'])->middleware('auth')->name('product.index');
 
+// Cart
+Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name("cart.index");
 Route::post('/cart', [CartController::class, 'addToCart'])->middleware('auth')->name("cart.addToCart");

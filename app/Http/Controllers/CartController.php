@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+
+    public function index()
+    {
+        $carts = Cart::where('user_id', Auth::user()->id)->get();
+        return view('cart', compact('carts'));
+    }
+
     public function addToCart(Request $request)
     {
         $product_exist = Cart::where('user_id', Auth::user()->id)->where('product_id', $request->product_id)->first();
