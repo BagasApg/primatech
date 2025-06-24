@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'password',
 <<<<<<< HEAD
+<<<<<<< HEAD
         'date_of_birth',
         'gender',
         'address',
@@ -32,6 +33,9 @@ class User extends Authenticatable
 =======
         'role',
 >>>>>>> feature/product
+=======
+        'role',
+>>>>>>> 7f2f9dd590997c248f6ad67f48e846718cea7fda
     ];
 
     /**

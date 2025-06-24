@@ -13,7 +13,8 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                       <p class="fs-4 fw-bold lh-sm">Walgreens Maximum Strength Daytime and Nighttime Severe Cold & Flu Caplets</p> 
+                        <p class="fs-4 fw-bold lh-sm">Walgreens Maximum Strength Daytime and Nighttime Severe Cold & Flu
+                            Caplets</p>
                     </div>
                 </div>
             </div>
