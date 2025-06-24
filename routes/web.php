@@ -1,11 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Auth;
->>>>>>> feature/product
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
