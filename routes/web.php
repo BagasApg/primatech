@@ -36,6 +36,11 @@ Route::get('/invoice/{id}', [InvoiceController::class, 'index'])->middleware('au
 
 // Admin
 // Product
-Route::post('/product', [ProductController::class, 'store'])->middleware(['auth', 'admin'])->name('admin.product.store');
-Route::put('/product', [ProductController::class, 'update'])->middleware(['auth', 'admin'])->name('admin.product.update');
-Route::delete('/product', [ProductController::class, 'delete'])->middleware(['auth', 'admin'])->name('admin.product.delete');
+Route::post('/admin/product', [ProductController::class, 'store'])->middleware(['auth', 'admin'])->name('admin.product.store');
+Route::put('/admin/product', [ProductController::class, 'update'])->middleware(['auth', 'admin'])->name('admin.product.update');
+Route::delete('/admin/product', [ProductController::class, 'delete'])->middleware(['auth', 'admin'])->name('admin.product.delete');
+
+// Category 
+Route::post('/admin/category', [ProductController::class, 'store'])->middleware(['auth', 'admin'])->name('admin.product.store');
+Route::put('/admin/product', [ProductController::class, 'update'])->middleware(['auth', 'admin'])->name('admin.product.update');
+Route::delete('/admin/product', [ProductController::class, 'delete'])->middleware(['auth', 'admin'])->name('admin.product.delete');
