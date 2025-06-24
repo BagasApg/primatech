@@ -15,6 +15,7 @@ Route::get('/', function () {
 });
 
 Route::post('/register/province', [RegisterController::class, 'province'])->name('register.province');
+Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
 Auth::routes();
 
