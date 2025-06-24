@@ -33,3 +33,9 @@ Route::post('/order', [OrderController::class, 'store'])->middleware('auth')->na
 
 // Invoice
 Route::get('/invoice/{id}', [InvoiceController::class, 'index'])->middleware('auth')->name('invoice.index');
+
+// Admin
+// Product
+Route::post('/product', [ProductController::class, 'store'])->middleware(['auth', 'admin'])->name('admin.product.store');
+Route::put('/product', [ProductController::class, 'update'])->middleware(['auth', 'admin'])->name('admin.product.update');
+Route::delete('/product', [ProductController::class, 'delete'])->middleware(['auth', 'admin'])->name('admin.product.delete');
