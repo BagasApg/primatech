@@ -9,8 +9,8 @@
         </div>
         <div class="row">
             <div class="col-md-9 mx-auto fs-5">
-                <table class="table table-bordered border-black bg-white">
-                    <tr>
+                <table class="table table-bordered border-black bg-white mb-4">
+                    <tr class="text-center">
                         <th>No</th>
                         <th>Nama Produk dengan ID</th>
                         <th>Jumlah</th>
