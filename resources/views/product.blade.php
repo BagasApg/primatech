@@ -2,29 +2,36 @@
 
 @section('content')
     <div class="container">
-        <div class="row">
-            <div class="title col-md-12 mt-3">
-                <h1 class="text-center fw-bold">Produk</h1>
-            </div>
-        </div>
-        <div class="products row d-flex justify-content-between mt-2">
+        <div class="row mt-4">
             <div class="col-md-9">
                 <div class="row">
-                    @for ($i = 0; $i < 30; $i++)
-                        <div class="col-md-3 my-2">
-                            <div class="card">
-                                <div class="card-body">
-                                    hi
-                                </div>
-                            </div>
+                    <div class="col-md-6">
+                        <div class="ratio ratio-1x1">
+                            <svg class="w-100">
+                                <rect width="100%" height="100%" fill="#8d8d8d"></rect>
+                            </svg>
                         </div>
-                    @endfor
+                    </div>
+                    <div class="col-md-6">
+                        <p class="fs-4 fw-bold lh-sm">Walgreens Maximum Strength Daytime and Nighttime Severe Cold & Flu
+                            Caplets</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card">
+                <div class="card mx-4 bg-white shadow-sm">
                     <div class="card-body">
-                        Hi
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <input type="number" class="form-control" name="amount" id="amount" min="1"
+                                    max="5" value="1">
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center ps-0">
+                                <p class="fs-5 m-0">Stok: 5</p>
+                            </div>
+                        </div>
+                        <div class="btn btn-success w-100">Beli</div>
+
                     </div>
                 </div>
             </div>

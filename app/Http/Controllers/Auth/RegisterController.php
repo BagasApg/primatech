@@ -78,10 +78,11 @@ class RegisterController extends Controller
     protected function store(Request $request)
     {
         // validate input form
+        // dd($request);
         $this->validate($request, [
             'username' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:user_profiles'],
             'DOB' => ['required'],
             'gender' => ['required'],
             'address' => ['required', 'string', 'max:255'],
@@ -104,7 +105,7 @@ class RegisterController extends Controller
         $user_profiles->date_of_birth = $request->DOB;
         $user_profiles->gender = $request->gender;
         $user_profiles->address = $request->address;
-        $user_profiles->provice_id = $request->province_id;
+        $user_profiles->province_id = $request->province_id;
         $user_profiles->city_id = $request->city_id;
         $user_profiles->contact = $request->contact;
         $user_profiles->paypal_id = $request->paypal;
@@ -120,6 +121,7 @@ class RegisterController extends Controller
 
         $cities = Wilayah::where('kode', 'like', $province_id . '.%')->whereRaw("LENGTH(kode) = LENGTH('$province_id.00')")->get();
 
+        echo "<option selected>Choose City</option>";
         foreach ($cities as $data) {
             echo "<option value='$data[kode]'>$data[nama]</option>";
         }
