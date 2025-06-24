@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\Gender;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserProfiles;
