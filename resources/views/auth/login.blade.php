@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('content')
     <div class="container">
-    <div class="row justify-content-center">
+        <div class="row justify-content-center">
             <div class="col-md-4">
                 <div class="card bg-white p-2">
                     <div class="card-body">

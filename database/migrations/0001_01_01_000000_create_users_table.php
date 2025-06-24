@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+<<<<<<< HEAD
             $table->string('email')->unique();
             $table->string('password');
             $table->date('date_of_birth');
@@ -26,6 +27,10 @@ return new class extends Migration
 
             $table->string('contact');
             $table->string('paypal_id');
+=======
+            $table->string('password');
+            $table->string('role')->default("user");
+>>>>>>> feature/product
             $table->rememberToken();
             $table->timestamps();
         });

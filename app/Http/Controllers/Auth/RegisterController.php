@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\Gender;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserProfiles;
 use App\Models\Wilayah;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -76,6 +76,7 @@ class RegisterController extends Controller
      */
     protected function store(Request $request)
     {
+        // validate input form
         $this->validate($request, [
             'username' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -89,20 +90,25 @@ class RegisterController extends Controller
             'paypal' => ['required', 'string']
         ]);
 
-        // dd($request->province_id);
+        // create an new account 
+        $user = new User();
+        $user->name = $request->username;
+        $user->password = $request->password;
+        $user->save();
 
-        User::create([
-            'name' => $request['username'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-            'date_of_birth' => $request['DOB'],
-            'gender' => $request['gender'],
-            'address' => $request['address'],
-            'province_id' => $request['province_id'],
-            'city_id' => $request['city_id'],
-            'contact' => $request['contact'],
-            'paypal_id' => $request['paypal'],
-        ]);
+        // create the user profile for new account
+        $user_profiles = new UserProfiles();
+        $user_profiles->user_id = $user->id;
+        $user_profiles->email = $request->email;
+        $user_profiles->date_of_birth = $request->DOB;
+        $user_profiles->gender = $request->gender;
+        $user_profiles->address = $request->address;
+        $user_profiles->provice_id = $request->province_id;
+        $user_profiles->city_id = $request->city_id;
+        $user_profiles->contact = $request->contact;
+        $user_profiles->paypal_id = $request->paypal;
+        $user_profiles->save();
+
 
         return redirect()->route('login')->with('success', "Successfully create new account, please login correctly");
     }

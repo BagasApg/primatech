@@ -19,8 +19,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
         'password',
+<<<<<<< HEAD
         'date_of_birth',
         'gender',
         'address',
@@ -29,6 +29,9 @@ class User extends Authenticatable
         'city',
         'contact',
         'paypal_id',
+=======
+        'role',
+>>>>>>> feature/product
     ];
 
     /**
@@ -52,5 +55,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(UserProfiles::class);
     }
 }
