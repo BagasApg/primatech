@@ -167,7 +167,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->product->name }}</td>
                             <td>{{ $item->qty }}</td>
-                            <td>{{ $item->total_price }}</td>
+                            <td>@currency($item->total_price)</td>
                         </tr>
                     @endforeach
                 </table>

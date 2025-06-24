@@ -5,8 +5,8 @@ use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\isAdmin;
 
@@ -27,6 +27,7 @@ Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name(
 Route::post('/cart', [CartController::class, 'addToCart'])->middleware('auth')->name("cart.addToCart");
 
 // Order
+Route::get('/order', [OrderController::class, 'index'])->middleware('auth')->name("order.index");
 Route::post('/order', [OrderController::class, 'store'])->middleware('auth')->name("order.store");
 
 // Invoice
