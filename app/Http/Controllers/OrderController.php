@@ -21,26 +21,31 @@ class OrderController extends Controller
     {
         $cart = Cart::where('user_id', Auth::user()->id)->get();
 
-        $order = new Order();
-        $order->user_id = Auth::user()->id;
-        $order->order_date = Carbon::now();
-        $order->total_product = count($cart);
-        $order->grand_total = $request->grand_total;
-        $order->save();
+        if (count($cart) > 0) {
 
-        foreach ($cart as $item) {
-            $order_detail = new OrderDetail();
-            $order_detail->order_id = $order->id;
-            $order_detail->product_id = $item->product_id;
-            $order_detail->qty =  $item->qty;
-            $order_detail->unit_price = $item->product->price;
-            $order_detail->total_price = $item->product->price * $item->qty;
+            $order = new Order();
+            $order->user_id = Auth::user()->id;
+            $order->order_date = Carbon::now();
+            $order->total_product = count($cart);
+            $order->grand_total = $request->grand_total;
+            $order->save();
 
-            Cart::destroy($item->id);
+            foreach ($cart as $item) {
+                $order_detail = new OrderDetail();
+                $order_detail->order_id = $order->id;
+                $order_detail->product_id = $item->product_id;
+                $order_detail->qty =  $item->qty;
+                $order_detail->unit_price = $item->product->price;
+                $order_detail->total_price = $item->product->price * $item->qty;
 
-            $order_detail->save();
+                Cart::destroy($item->id);
+
+                $order_detail->save();
+            }
+
+            return redirect()->route('invoice.index', $order->id);
+        } else {
+            return redirect()->back();
         }
-
-        return redirect()->route('invoice.index', $order->id);
     }
 }
