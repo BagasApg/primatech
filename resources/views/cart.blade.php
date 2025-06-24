@@ -16,15 +16,28 @@
                         <th>Jumlah</th>
                         <th>Harga</th>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Thermometer 10291</td>
-                        <td>1</td>
-                        <td>@currency(250000)</td>
-                    </tr>
+                    @php
+                        $total_price = 0;
+                    @endphp
+                    @forelse ($carts as $cart)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $cart->product->name }}</td>
+                            <td class="text-center">{{ $cart->qty }}</td>
+                            <td>@currency($cart->product->price * $cart->qty)</td>
+                        </tr>
+                        @php
+                            $total_price += $cart->product->price * $cart->qty;
+                        @endphp
+                    @empty
+                        <span>Kerangjang Kosong</span>
+                    @endforelse
                 </table>
-                <p class="fs-5">Total Belanja (termasuk pajak): <span class="text-decoration-underline">
-                        @currency(250000)</span></p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="fs-5">Total Belanja (termasuk pajak): <span class="text-decoration-underline">
+                            @currency($total_price)</span></p>
+                    <button class="btn btn-primary">Order & Print PDF</button>
+                </div>
             </div>
         </div>
     </div>
