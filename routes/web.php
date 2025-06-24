@@ -14,8 +14,9 @@ Route::get('/', function () {
     return redirect()->route('product.index');
 });
 
+
+Route::post('/register/store', [RegisterController::class, 'store'])->name('register.store');
 Route::post('/register/province', [RegisterController::class, 'province'])->name('register.province');
-Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
 Auth::routes();
 
