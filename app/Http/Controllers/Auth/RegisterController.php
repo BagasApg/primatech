@@ -67,6 +67,11 @@ class RegisterController extends Controller
     //         'paypal' => ['required', 'string']
     //     ]);
     // }
+    public function showRegistrationForm()
+    {
+        $provinces = Wilayah::whereRaw('LENGTH(kode) < 3')->get();
+        return view('auth.register', compact('provinces'));
+    }
 
     /**
      * Create a new user instance after a valid registration.
