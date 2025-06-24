@@ -11,14 +11,14 @@ use App\Http\Controllers\ProductController;
 use App\Http\Middleware\isAdmin;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('product.index');
 });
 
 Route::post('/register/province', [RegisterController::class, 'province'])->name('register.province');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/products', [ProductController::class, 'index'])->middleware('auth')->name('product.index');
 
