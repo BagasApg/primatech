@@ -10,27 +10,38 @@
         <div class="products row d-flex justify-content-between mt-2">
             <div class="col-md-9">
                 <div class="row">
-                    @for ($i = 0; $i < 10; $i++)
+                    @forelse ($products as $product)
                         <div class="col-md-4 px-4">
-                            <a href="/product/{{ $i + 1029 }}" class="text-decoration-none">
-                                <div class="card bg-white mb-4 shadow-sm rounded-3">
+                            <div class="card bg-white mb-4 shadow-sm rounded-3"
+                                title="{{ $product->name . ' - ' . $product->description }}">
+                                <a href="/product/{{ $product->id }}" class="text-decoration-none text-black">
                                     <div class="card-body">
                                         <div class="product-image ratio ratio-1x1 mb-2">
                                             {{-- IMAGE --}}
-                                            <svg class="w-100">
+                                            {{-- <svg class="w-100">
                                                 <rect width="100%" height="100%" fill="#8d8d8d"></rect>
-                                            </svg>
+                                            </svg> --}}
+                                            <img src="{{ asset($product->image) }}" alt="">
                                             {{-- IMAGE --}}
                                         </div>
-                                        <p class="fs-5 mb-2">Product {{ $i }} with extra supplement enhanced for
-                                            well
-                                            being includes spray of hygienation</p>
-                                        <p class="fs-4">@currency(($i + 1) * 11900)</p>
+                                        <p class="fs-5 mb-2">
+                                            <strong>{{ Str::limit($product->name, 20) }}</strong>
+                                            {{ Str::limit($product->description, 20) }}
+                                        <p class="fs-4">@currency($product->price)</p>
                                     </div>
+                                </a>
+                                <div class="card-footer text-center">
+                                    <form action="{{ route('cart.addToCart') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <button class="btn btn-primary" type="submit">Add to Cart</button>
+                                    </form>
                                 </div>
-                            </a>
+                            </div>
                         </div>
-                    @endfor
+                    @empty
+                        <span>Kosong lee</span>
+                    @endforelse
                 </div>
             </div>
             <div class="col-md-3">
@@ -38,10 +49,9 @@
                 <div class="card mx-4 bg-white shadow-sm">
                     <div class="card-body">
                         <h4 class="mb-4">Categories</h4>
-
-                        
-                        <p class="fs-5">Anak-anak</p>
-                        
+                        @foreach ($categories as $category)
+                            <p>{{ $category->name }}</p>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -49,5 +59,8 @@
     </div>
 @endsection
 
-                        {{-- @for($i = 1; $i <= 4; $i++)
+{{-- @for ($i = 1; $i <= 4; $i++)
+                        @endfor --}}
+
+{{-- @for ($i = 1; $i <= 4; $i++)
                         @endfor --}}
