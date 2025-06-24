@@ -11,32 +11,35 @@
             <div class="col-md-9">
                 <div class="row">
                     @forelse ($products as $product)
-                        <div class="col-md-4 px-4">
-                            <div class="card bg-white mb-4 shadow-sm rounded-3"
+                        <div class="col-md-4 px-4 mb-4 d-flex align-items-stretch">
+                            <div class="card bg-white shadow-sm rounded-3 position-relative"
                                 title="{{ $product->name . ' - ' . $product->description }}">
-                                <a href="/product/{{ $product->id }}" class="text-decoration-none text-black">
-                                    <div class="card-body">
-                                        <div class="product-image ratio ratio-1x1 mb-2">
-                                            {{-- IMAGE --}}
-                                            {{-- <svg class="w-100">
+                                <div class="card-body d-flex flex-column align-items-stretch">
+                                    <div class="product-image ratio ratio-1x1 mb-2">
+                                        {{-- IMAGE --}}
+                                        {{-- <svg class="w-100">
                                                 <rect width="100%" height="100%" fill="#8d8d8d"></rect>
                                             </svg> --}}
-                                            <img src="{{ asset($product->image) }}" alt="">
-                                            {{-- IMAGE --}}
-                                        </div>
-                                        <p class="fs-5 mb-2">
-                                            <strong>{{ Str::limit($product->name, 20) }}</strong>
-                                            {{ Str::limit($product->description, 20) }}
-                                        <p class="fs-4">@currency($product->price)</p>
+                                        <img src="{{ asset($product->image) }}" alt="">
+                                        {{-- IMAGE --}}
                                     </div>
-                                </a>
-                                <div class="card-footer text-center">
-                                    <form action="{{ route('cart.addToCart') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                        <button class="btn btn-primary" type="submit">Add to Cart</button>
-                                    </form>
+                                    <p class="fs-5 mb-2">
+                                        <strong>{{ Str::limit($product->name) }}</strong>
+                                    </p>
+                                    <p class="fs-5 mb-2">
+                                        {{ Str::limit($product->description, 35) }}
+                                    </p>
+                                    <p class="fs-4">@currency($product->price)</p>
+                                    <div class="mt-auto">
+
+                                        <form action="{{ route('cart.addToCart') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            <button class="btn btn-primary" type="submit">Add to Cart</button>
+                                        </form>
+                                    </div>
                                 </div>
+                                <a href="/product/{{ $product->id }}" class="position-absolute w-100 top-0 start-0 end-0 bottom-0"></a>
                             </div>
                         </div>
                     @empty
