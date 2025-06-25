@@ -7,7 +7,7 @@
 
         @if(session()->has('success'))
         <div class="alert alert-success" role="alert">
-            {{ $session('success') }}
+            {{ session('success') }}
         </div>
         @endif
         <a href="{{ route('admin.product.create') }}" class="btn btn-primary my-3">

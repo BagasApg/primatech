@@ -7,6 +7,12 @@
                 <h1 class="fw-bold py-3">Produk</h1>
             </div>
         </div>
+
+        <div class="alert alert-success">
+            @if(session()->has('success'))
+            {{ session('success') }}
+            @endif
+        </div>
         <div class="products row d-flex justify-content-between mt-2">
             <div class="col-md-9">
                 <div class="row">

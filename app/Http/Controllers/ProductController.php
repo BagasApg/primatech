@@ -60,7 +60,7 @@ class ProductController extends Controller
 
     public function show(Product $product){
         // $product = Product::find($id);
-        $categories = Category::get(); 
+        $categories = Category::get();
 
         // dd($product);
 
@@ -83,7 +83,7 @@ class ProductController extends Controller
             'name' => 'required',
             'price' => 'required|integer',
             'description' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,jpg,png',
+            'image' => 'image|mimes:jpeg,jpg,png',
         ]);
 
         $product = Product::find($id);
@@ -93,11 +93,16 @@ class ProductController extends Controller
         $product->description = $request->description;
 
         // image handler
-        $file_name = time() . "_" . $request->file('image')->getClientOriginalName();
-        $request->file('image')->move('images', $file_name);
+        if ($request->hasFile('image'))  {
+            $old_image_path = public_path('images/') . $product->image;
+            File::delete($old_image_path);
 
-        $product->image = $file_name;
+            $file_name = time() . "_" . $request->file('image')->getClientOriginalName();
+            $request->file('image')->move('images', $file_name);
+            $product->image = $file_name;
+        }
         $product->save();
+
 
         return redirect()->route('admin.product.index')->with('success', "Successfully edited a product");
     }
@@ -107,7 +112,7 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         // dd($product);
-        
+
         // Image deletion
         if($product->image){
             // Get full path

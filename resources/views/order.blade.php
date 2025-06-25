@@ -27,7 +27,7 @@
                         <td>@currency($order->grand_total)</td>
                         <td class="text-center">
                             @if ($order->payment_status == 'pending')
-                                <button class="btn btn-warning" id="pay-now"
+                                <button class="btn btn-warning pay-now"
                                     data-token="{{ $order->snap_token }}">Pay</button>
                             @elseif ($order->payment_status == 'paid')
                                 <a href="{{ route('invoice.index', $order->order_id) }}">
@@ -45,7 +45,13 @@
     </div>
 
     <script>
-        $('#pay-now').on('click', function(e) {
+    $(document).ready(function () {
+    $(".pay-now").click(function (e) {
+        e.preventDefault();
+        console.log($(this).data('token'));
+    });
+
+        $('.pay-now').on('click', function(e) {
             e.preventDefault();
             const token = $(this).data('token');
             snap.pay(token, {
@@ -60,5 +66,7 @@
                 }
             })
         })
+
+    });
     </script>
 @endsection

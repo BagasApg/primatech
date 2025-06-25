@@ -31,6 +31,45 @@ class CartController extends Controller
             $product_exist->save();
         }
 
-        return redirect()->route('product.index');
+        return redirect()->route('product.index')->with('success', "Successfully added a new item to cart");
+    }
+
+    public function updateQty(Request $request) {
+        $cart = Cart::findOrFail($request->id);
+        if ($request->type == 'plus') {
+            $cart->qty += 1;
+            $cart->save();
+
+            return response()->json([
+                'qty' => $cart->qty,
+                'total' => $cart->qty * $cart->product->price,
+            ]);
+        }
+
+        if ($request->type === 'minus') {
+             if ($cart->qty > 1) {
+                $cart->qty -= 1;
+                $cart->save();
+
+                return response()->json([
+                    'qty' => $cart->qty,
+                    'total' => $cart->qty * $cart->product->price
+                ]);
+            } else {
+                $cart->delete();
+
+                return response()->json([
+                    'id' => $request->id
+                ]);
+            }
+        }
+
+    }
+
+    public function removeItem($id) {
+        $cart = Cart::find($id);
+        $cart->delete();
+
+        return redirect()->back()->with("success", "Successfully deleted a data");
     }
 }

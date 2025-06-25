@@ -30,6 +30,8 @@ Route::get('/products', [ProductController::class, 'index'])->middleware('auth')
 // Cart
 Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name("cart.index");
 Route::post('/cart', [CartController::class, 'addToCart'])->middleware('auth')->name("cart.addToCart");
+Route::delete('/cart/${id}', [CartController::class, 'removeItem'])->middleware('auth')->name('cart.removeItem');
+Route::post('/cart/update', [CartController::class, 'updateQty'])->middleware('auth')->name('cart.update');
 
 // Order
 Route::get('/order', [OrderController::class, 'index'])->middleware('auth')->name("order.index");
@@ -58,7 +60,7 @@ Route::put('/admin/products/{id}/edit', [ProductController::class, 'update'])->m
 
 Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->middleware(['auth', 'admin'])->name('admin.product.delete');
 
-// Category 
+// Category
 Route::get('/admin/categories', [CategoryController::class, 'admin'])->middleware(['auth', 'admin'])->name('admin.category.index');
 
 Route::get('/admin/categories/create', [CategoryController::class, 'create'])->middleware(['auth', 'admin'])->name('admin.category.create');
