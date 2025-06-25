@@ -28,7 +28,7 @@
                         <td class="text-center">
                             @if ($order->payment_status == 'pending')
                                 <button class="btn btn-warning pay-now"
-                                    data-token="{{ $order->snap_token }}">Pay</button>
+                                    data-token="{{ $order->snap_token }}" data-order_id="{{ $order->order_id }}">Pay</button>
                             @elseif ($order->payment_status == 'paid')
                                 <a href="{{ route('invoice.index', $order->order_id) }}">
                                     <div class="btn btn-primary">Print</div>
@@ -54,9 +54,10 @@
         $('.pay-now').on('click', function(e) {
             e.preventDefault();
             const token = $(this).data('token');
+            const order_id = $(this).data('order_id');
             snap.pay(token, {
                 onSuccess: function(result) {
-                    window.location.href = "{{ route('invoice.index', $order->order_id) }}"
+                    window.location.href = `/invoice/${order_id}`;
                 },
                 onPending: function(result) {
                     window.location.href = "{{ route('order.index') }}"

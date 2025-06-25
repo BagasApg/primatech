@@ -30,7 +30,7 @@ Route::get('/products', [ProductController::class, 'index'])->middleware('auth')
 // Cart
 Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name("cart.index");
 Route::post('/cart', [CartController::class, 'addToCart'])->middleware('auth')->name("cart.addToCart");
-Route::delete('/cart/${id}', [CartController::class, 'removeItem'])->middleware('auth')->name('cart.removeItem');
+Route::delete('/cart/{id}', [CartController::class, 'removeItem'])->middleware('auth')->name('cart.removeItem');
 Route::post('/cart/update', [CartController::class, 'updateQty'])->middleware('auth')->name('cart.update');
 
 // Order
