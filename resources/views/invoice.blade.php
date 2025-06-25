@@ -146,7 +146,7 @@
                     </tr>
                     <tr>
                         <td>No. HP</td>
-                        <td>{{ $user->profile->phone }}</td>
+                        <td>{{ $user->profile->contact }}</td>
                         {{-- <td>Cara Bayar</td>
                         <td>{{ $payment ? 'Prepaid' : 'Postpaid' }}</td> --}}
                     </tr>

@@ -20,7 +20,7 @@
                                         {{-- <svg class="w-100">
                                                 <rect width="100%" height="100%" fill="#8d8d8d"></rect>
                                             </svg> --}}
-                                        <img src="{{ asset($product->image) }}" alt="">
+                                        <img src="{{ asset('images/'.$product->image) }}" alt="">
                                         {{-- IMAGE --}}
                                     </div>
                                     <p class="fs-5 mb-2">

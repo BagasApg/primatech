@@ -116,7 +116,7 @@ class RegisterController extends Controller
         $user_profiles->save();
 
 
-        return redirect()->route('login')->with('success', "Successfully create new account, please login correctly");
+        return redirect()->route('login')->with('success', "Successfully created new account, please login correctly");
     }
 
     public function province(Request $request)

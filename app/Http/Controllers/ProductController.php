@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Cart;
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -17,20 +18,29 @@ class ProductController extends Controller
         return view('products', compact('products', 'categories'));
     }
 
-    public function showProduct()
+    public function admin()
     {
-        return view('product');
+        $products = Product::get();
+        $categories = Category::get();
+        return view('admin.products.index', compact('products', 'categories'));
+    }
+
+    public function create(){
+        $categories = Category::get();
+
+        return view('admin.products.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'category_id' => 'required',
-            'name' => 'required|max:50|string',
+            'name' => 'required',
             'price' => 'required|integer',
             'description' => 'required|string',
-            'image' => 'required|files|image|mimes:jpeg,jpg,png',
+            'image' => 'required|image|mimes:jpeg,jpg,png',
         ]);
+        // dd($request);
 
         $product = new Product();
         $product->category_id = $request->category_id;
@@ -45,11 +55,37 @@ class ProductController extends Controller
         $product->image = $file_name;
         $product->save();
 
-        return redirect()->route('admin.product.index')->with('success', "Successfully add new product");
+        return redirect()->route('admin.product.index')->with('success', "Successfully added a new product");
+    }
+
+    public function show(Product $product){
+        // $product = Product::find($id);
+        $categories = Category::get(); 
+
+        // dd($product);
+
+        return view('admin.products.show', compact('product', 'categories'));
+    }
+
+    public function edit($id){
+        $product = Product::find($id);
+        $categories = Category::get();
+        // dd($categories);
+
+        return view('admin.products.edit', compact('product', 'categories'));
+
     }
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'category_id' => 'required',
+            'name' => 'required',
+            'price' => 'required|integer',
+            'description' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,jpg,png',
+        ]);
+
         $product = Product::find($id);
         $product->category_id = $request->category_id;
         $product->name = $request->name;
@@ -63,20 +99,31 @@ class ProductController extends Controller
         $product->image = $file_name;
         $product->save();
 
-        return redirect()->route('admin.product.index')->with('success', "Successfully edit product");
+        return redirect()->route('admin.product.index')->with('success', "Successfully edited a product");
     }
 
     public function destroy($id)
     {
         $product = Product::find($id);
 
-        // if this product in cart, delete it.
+        // dd($product);
+        
+        // Image deletion
+        if($product->image){
+            // Get full path
+            $image_path = public_path('images/') . $product->image;
+            // dd($image_path);
+
+            File::delete($image_path);
+        }
+
+        // if this  product is in cart, delete it.
         Cart::where("product_id", $id)->each(function ($cart) {
             $cart->delete();
         });
 
         $product->delete();
 
-        return redirect()->route('admin.panel.index')->with('success', "Successfully delete product");
+        return redirect()->route('admin.product.index')->with('success', "Successfully deleted a product");
     }
 }
