@@ -27,7 +27,7 @@ class InvoiceController extends Controller
             return view('invoice', $data);
         }
 
-        $order = Order::find($id);
+        $order = Order::where("order_id", $id)->first();
         $order_details = $order->order_details()->get();
 
         view()->share([

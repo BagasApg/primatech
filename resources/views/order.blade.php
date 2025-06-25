@@ -11,6 +11,7 @@
             <table class="table fs-5">
                 <tr>
                     <th style="width: 10%">No.</th>
+                    <th>Order ID</th>
                     <th>Tanggal</th>
                     <th>Qty.</th>
                     <th>Total</th>
@@ -20,16 +21,44 @@
                 @foreach ($orders as $order)
                     <tr class="align-middle">
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{ $order->order_id }}</td>
                         <td>{{ $order->order_date }}</td>
                         <td>{{ $order->total_product }}</td>
                         <td>@currency($order->grand_total)</td>
-                        <td class="text-center"><a href="{{ route('invoice.index', $order->id) }}">
-                                <div class="btn btn-primary">Print</div>
-                            </a></td>
+                        <td class="text-center">
+                            @if ($order->payment_status == 'pending')
+                                <button class="btn btn-warning" id="pay-now"
+                                    data-token="{{ $order->snap_token }}">Pay</button>
+                            @elseif ($order->payment_status == 'paid')
+                                <a href="{{ route('invoice.index', $order->order_id) }}">
+                                    <div class="btn btn-primary">Print</div>
+                                </a>
+                            @else
+                                <span class="text-muted">Status: {{ $order->payment_status }}</span>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 {{-- Loop here --}}
             </table>
         </div>
     </div>
+
+    <script>
+        $('#pay-now').on('click', function(e) {
+            e.preventDefault();
+            const token = $(this).data('token');
+            snap.pay(token, {
+                onSuccess: function(result) {
+                    window.location.href = "{{ route('invoice.index', $order->order_id) }}"
+                },
+                onPending: function(result) {
+                    window.location.href = "{{ route('order.index') }}"
+                },
+                onError: function(result) {
+                    alert('Gagal');
+                }
+            })
+        })
+    </script>
 @endsection

@@ -141,8 +141,8 @@
                     <tr>
                         <td>Alamat</td>
                         <td>{{ $user->profile->address }}</td>
-                        {{-- <td>Nama Bank</td>
-                        <td>{{ $bank }}</td> --}}
+                        <td>Nama Bank</td>
+                        <td>{{ $order->payment_type }}</td>
                     </tr>
                     <tr>
                         <td>No. HP</td>

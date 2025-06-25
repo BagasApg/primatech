@@ -192,7 +192,8 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('register.province') }}",
+                    // url: "{{ route('register.province') }}",
+                    url: "/register/province",
                     data: {
                         province_id: province_id
                     },
