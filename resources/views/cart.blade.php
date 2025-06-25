@@ -7,11 +7,11 @@
                 <p class="fw-bold fs-1 text-center m-0">Keranjang Belanja</p>
             </div>
         </div>
+        @if(session()->has('success'))
         <div class="alert alert-success">
-            @if(session()->has('success'))
             {{ session('success') }}
-            @endif
         </div>
+        @endif
         <div class="row">
             <div class="col-md-9 mx-auto fs-5">
                 <table class="table table-bordered border-black bg-white">
