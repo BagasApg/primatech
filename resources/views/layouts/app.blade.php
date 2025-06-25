@@ -18,6 +18,9 @@
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
+    {{-- MIDTRANS SNAP --}}
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+    </script>
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -43,7 +46,7 @@
                             <a class="nav-link" href="{{ route('product.index') }}">Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('order.index')  }}">Order</a>
+                            <a class="nav-link" href="{{ route('order.index') }}">Order</a>
                         </li>
                     </ul>
 

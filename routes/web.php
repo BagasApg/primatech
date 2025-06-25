@@ -15,7 +15,7 @@ Route::get('/', function () {
 });
 
 Route::post('/register/province', [RegisterController::class, 'province'])->name('register.province');
-Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+Route::post('/register/store', [RegisterController::class, 'store'])->name('register.store');
 
 Auth::routes();
 
@@ -41,6 +41,6 @@ Route::put('/admin/product', [ProductController::class, 'update'])->middleware([
 Route::delete('/admin/product', [ProductController::class, 'delete'])->middleware(['auth', 'admin'])->name('admin.product.delete');
 
 // Category 
-Route::post('/admin/category', [ProductController::class, 'store'])->middleware(['auth', 'admin'])->name('admin.product.store');
-Route::put('/admin/product', [ProductController::class, 'update'])->middleware(['auth', 'admin'])->name('admin.product.update');
-Route::delete('/admin/product', [ProductController::class, 'delete'])->middleware(['auth', 'admin'])->name('admin.product.delete');
+Route::post('/admin/category', [ProductController::class, 'store'])->middleware(['auth', 'admin'])->name('admin.category.store');
+Route::put('/admin/product', [ProductController::class, 'update'])->middleware(['auth', 'admin'])->name('admin.category.update');
+Route::delete('/admin/product', [ProductController::class, 'delete'])->middleware(['auth', 'admin'])->name('admin.category.delete');

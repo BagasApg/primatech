@@ -39,8 +39,8 @@
                                         </form>
                                     </div>
                                 </div>
-                                <a href="/product/{{ $product->id }}"
-                                    class="position-absolute w-100 top-0 start-0 end-0 bottom-0"></a>
+                                {{-- <a href="/product/{{ $product->id }}"
+                                    class="position-absolute w-100 top-0 start-0 end-0 bottom-0"></a> --}}
                             </div>
                         </div>
                     @empty
@@ -57,9 +57,9 @@
                         <h4 class="mb-4">Categories</h4>
                         @foreach ($categories as $category)
                             <div class="form-check mt-3 fs-5">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                            <label class="form-check-label" for="defaultCheck1"> {{ $category->name }} </label>
-                          </div>
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                <label class="form-check-label" for="defaultCheck1"> {{ $category->name }} </label>
+                            </div>
                         @endforeach
                     </div>
                 </div>
