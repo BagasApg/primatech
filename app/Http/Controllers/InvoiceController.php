@@ -11,22 +11,6 @@ class InvoiceController extends Controller
 {
     public function index(Request $request, $id)
     {
-
-        $data = [
-            'userid' => "0301209",
-            'name' => "Bagas Arianto",
-            'address' => "Jl. Ngagel Rejo Kidul",
-            'phone' => '085158192',
-            'tanggal' => '15 Juni 2025',
-            'paypal' => '1293912',
-            'bank' => "Mandiri",
-            'payment' => 1
-        ];
-
-        if ($request->has('preview')) {
-            return view('invoice', $data);
-        }
-
         $order = Order::where("order_id", $id)->first();
         $order_details = $order->order_details()->get();
 
@@ -36,11 +20,11 @@ class InvoiceController extends Controller
             'user' => Auth::user(),
         ]);
 
-        $pdf = Pdf::loadView('invoice', $data);
+        $pdf = Pdf::loadView('invoice');
 
-        return $pdf->stream($data['userid']  . "-invoice.pdf");
+        return $pdf->stream($order['userid']  . "-invoice.pdf");
 
-        // return view('invoice', $data);
+        return view('invoice');
     }
 
     // $pdf Pdf::load

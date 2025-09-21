@@ -29,7 +29,7 @@
                                         <img src="{{ asset('images/'.$product->image) }}" alt="">
                                         {{-- IMAGE --}}
                                     </div>
-                                    <p class="fs-5 mb-2">
+                                    <p class="fs-5 mb-2 card-title">
                                         <strong>{{ Str::limit($product->name) }}</strong>
                                     </p>
                                     <p class="fs-5 mb-2">
@@ -57,17 +57,22 @@
             <div class="col-md-3">
                 <p class="fs-4 mx-4 fw-bold mb-2">Filter</p>
                 <div class="card mx-4 bg-white shadow-sm">
-                    <div class="card-body">
-                        <h4 class="mb-4">Categories</h4>
-                        @foreach ($categories as $category)
-                            <div class="form-check mt-3 fs-5">
-                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                <label class="form-check-label" for="defaultCheck1"> {{ $category->name }} </label>
-                            </div>
-                        @endforeach
+                        <form action="{{ route('product.index') }}" method="get" id="filterForm">
+                        <div class="card-body">
+                            <h4 class="mb-4">Categories</h4>
+                            @foreach ($categories as $category)
+                                <div class="form-check mt-3 fs-5">
+                                    <input class="form-check-input" name="categories[]" type="checkbox" value="{{ $category->id }}"
+                                        onchange="document.getElementById('filterForm').submit()"
+                                        {{ (is_array(request()->categories) && in_array($category->id, request()->categories)) ? 'checked' : '' }}
+                                        id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1"> {{ $category->name }} </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </form>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 @endsection

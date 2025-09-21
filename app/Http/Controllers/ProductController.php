@@ -10,9 +10,17 @@ use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::get();
+        $query = Product::query();
+
+
+
+        if ($request->has('categories')) {
+            $query->whereIn('category_id', $request->categories);
+        }
+
+        $products = $query->get();
         $categories = Category::get();
 
         return view('products', compact('products', 'categories'));

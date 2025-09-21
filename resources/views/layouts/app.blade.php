@@ -26,6 +26,34 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
+<style>
+    .navbar {
+        background-color: #10B981 !important;
+    }
+
+    body {
+        background-color: #f9fafb;
+    }
+
+    .card {
+        border: 2px solid #d1fae5;
+    }
+
+    .card-title {
+        color: #065f46;
+    }
+
+    .btn-primary {
+        background-color: #10b981 !important;
+        border-color: #10b981 !important;
+    }
+
+    .btn-primary:hover {
+        background-color: #047857 !important;
+        border-color: #047857 !important;
+    }
+</style>
+
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">

@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>HealthGo</title>
+    <title>CureMart</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -26,25 +26,61 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
+<style>
+    .sidebar {
+        background-color: #0f6448 !important;
+    }
+
+    body {
+        background-color: #f9fafb;
+    }
+
+    .card {
+        border: 2px solid #d1fae5;
+    }
+
+    .card-title {
+        color: #065f46;
+    }
+
+    .btn-primary {
+        background-color: #10b981 !important;
+        border-color: #10b981 !important;
+    }
+
+    .btn-primary:hover {
+        background-color: #047857 !important;
+        border-color: #047857 !important;
+    }
+
+    .nav-link.active {
+        background-color: #19954b !important;
+    }
+
+    .nav-item:hover {
+        background-color: #024a37;
+    }
+</style>
+
 <body>
 
     <main class="d-flex flex-nowrap">
 
-        <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark vh-100 position-fixed top-0 bottom-0 start-0"
+        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 text-bg-dark vh-100 position-fixed top-0 bottom-0 start-0"
             style="width: 280px">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                <span class="fs-4 ps-3">HealthGo</span>
+                <span class="fs-4 ps-3">CureMart</span>
             </a>
             <hr />
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
                     <a href="{{ route('admin.user.index') }}"
-                        class="nav-link ps-3 
-                    
-                    @if (Request::is('admin/user*')) active 
+                        class="nav-link ps-3
+
+                    @if (Request::is('admin/user*')) active
                     @else
                     text-white @endif
-                    
+
                     "
                         aria-current="page">
                         Users
@@ -53,11 +89,11 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.category.index') }}"
                         class="nav-link ps-3
-                    
-                    @if (Request::is('admin/categories*')) active 
+
+                    @if (Request::is('admin/categories*')) active
                     @else
                     text-white @endif
-                    
+
                     "
                         aria-current="page">
                         Categories
@@ -66,8 +102,8 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.product.index') }}"
                         class="nav-link ps-3
-                    
-                    @if (Request::is('admin/product*')) active 
+
+                    @if (Request::is('admin/product*')) active
                     @else
                     text-white @endif
                     "
