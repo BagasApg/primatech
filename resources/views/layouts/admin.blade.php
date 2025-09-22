@@ -111,6 +111,18 @@
                         Products
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.orders') }}"
+                        class="nav-link ps-3
+
+                    @if (Request::is('admin/orders*')) active
+                    @else
+                    text-white @endif
+                    "
+                        aria-current="page">
+                        Orders
+                    </a>
+                </li>
             </ul>
             <hr />
             <div class="dropdown">

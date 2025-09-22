@@ -42,7 +42,7 @@ Route::get('/invoice/{id}', [InvoiceController::class, 'index'])->middleware('au
 
 // Admin
 
-Route::get('/admin', function(){
+Route::get('/admin', function () {
     return view('admin.index');
 })->middleware(['auth', 'admin'])->name('admin.index');
 
@@ -50,7 +50,7 @@ Route::get('/admin', function(){
 Route::get('/admin/products', [ProductController::class, 'admin'])->middleware(['auth', 'admin'])->name('admin.product.index');
 
 
-Route::get('/admin/products/create',[ProductController::class, 'create'])->middleware(['auth', 'admin'])->name('admin.product.create');
+Route::get('/admin/products/create', [ProductController::class, 'create'])->middleware(['auth', 'admin'])->name('admin.product.create');
 Route::post('/admin/products', [ProductController::class, 'store'])->middleware(['auth', 'admin'])->name('admin.product.store');
 
 Route::get('/admin/products/{product:id}', [ProductController::class, 'show'])->middleware(['auth', 'admin'])->name('admin.product.show');
@@ -85,3 +85,8 @@ Route::get('/admin/users/{user:id}', [UserController::class, 'show'])->middlewar
 
 
 Route::delete('/admin/users/{user:id}', [UserController::class, 'delete'])->middleware(['auth', 'admin'])->name('admin.user.delete');
+
+// Orders Control
+Route::get('/admin/orders', function () {
+    return view('admin.orders.index');
+})->middleware(['auth', 'admin'])->name('admin.orders');
