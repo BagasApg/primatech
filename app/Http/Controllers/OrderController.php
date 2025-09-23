@@ -45,6 +45,15 @@ class OrderController extends Controller
             // $order->confirmation_status = 'waiting';
             // $order->payment_status = 'pending';
             // $order->save();
+            // $order = new Order();
+            // $order->order_id = $midtransOrderId;
+            // $order->user_id = Auth::user()->id;
+            // $order->order_date = Carbon::now();
+            // $order->total_product = count($cart);
+            // $order->grand_total = $request->grand_total;
+            // $order->confirmation_status = 'waiting';
+            // $order->payment_status = 'pending';
+            // $order->save();
 
             $item_details = [];
 
