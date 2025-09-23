@@ -12,6 +12,8 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\GuestbookController;
+use App\Models\Guestbook;
 
 Route::get('/', function () {
     return redirect()->route('product.index');
@@ -90,3 +92,10 @@ Route::delete('/admin/users/{user:id}', [UserController::class, 'delete'])->midd
 Route::get('/admin/orders', function () {
     return view('admin.orders.index');
 })->middleware(['auth', 'admin'])->name('admin.orders');
+
+// Guestbook
+Route::get('/admin/guestbook', [GuestbookController::class, 'index'])->middleware(['auth', 'admin'])->name('admin.guestbook.index');
+
+Route::post('/guestbook/create', [GuestbookController::class, 'store'])->name('guestbook.store');
+
+Route::delete('/admin/guestbook/{guestbook:id}', [GuestbookController::class, 'delete'])->middleware(['auth', 'admin'])->name('admin.guestbook.delete');

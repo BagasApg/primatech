@@ -152,49 +152,17 @@
         <footer class="py-4 mt-3 border-top">
             <div class="container">
                 <div class="form-area">
+                    <form action="{{ route('guestbook.store') }}" method="post">
+                        @csrf
+                        <p class="fs-4 fw-bold text-white">Biar kami makin oke, tulis pesan/saran di bawah!</p>
+                        <input class="form-control mb-3" type="text" placeholder="John Doe"
+                            aria-label="default input example" name="sender">
+                        <textarea class="form-control mb-3" id="exampleFormControlTextarea1" rows="3"
+                            placeholder="Produknya beragam, respon cepet banget!" name="message"></textarea>
+                        <button class="btn btn-success d-inline-block">Kirim!</button>
+                    </form>
+                </div>
 
-                    <p class="fs-4 fw-bold text-white">Biar kami makin oke, tulis pesan/saran di bawah!</p>
-                    <input class="form-control mb-3" type="text" placeholder="John Doe"
-                        aria-label="default input example">
-                    <textarea class="form-control mb-3" id="exampleFormControlTextarea1" rows="3"
-                        placeholder="Produknya beragam, respon cepet banget!"></textarea>
-                    <button class="btn btn-success d-inline-block">Kirim!</button>
-                </div>
-                <div class="comments-area mt-4">
-                    <h4 class="text-white fw-bold mb-2">Beberapa komentar lainnya!</h4>
-                    <div class="lists ps-3">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5>
-                                    {{ 'john doe' }} <span class="fs-6 text-body-secondary">pada
-                                        {{ '24 feb 2025' }}</span>
-                                </h5>
-                                <p class="m-0">lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                    voluptatibus, beatae!</p>
-                            </div>
-                        </div>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5>
-                                    {{ 'john doe' }} <span class="fs-6 text-body-secondary">pada
-                                        {{ '24 feb 2025' }}</span>
-                                </h5>
-                                <p class="m-0">lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                    voluptatibus, beatae!</p>
-                            </div>
-                        </div>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5>
-                                    {{ 'john doe' }} <span class="fs-6 text-body-secondary">pada
-                                        {{ '24 feb 2025' }}</span>
-                                </h5>
-                                <p class="m-0">lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                    voluptatibus, beatae!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </footer>
         {{-- COMMENT --}}

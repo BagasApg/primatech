@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Guestbook;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(WilayahSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(ProductSeeder::class);
+        $this->call(GuestbookSeeder::class);
 
         // User::factory()->create([
         //     'name' => 'Test User',

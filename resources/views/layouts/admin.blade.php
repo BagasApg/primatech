@@ -123,6 +123,18 @@
                         Orders
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.guestbook.index') }}"
+                        class="nav-link ps-3
+
+                    @if (Request::is('admin/orders*')) active
+                    @else
+                    text-white @endif
+                    "
+                        aria-current="page">
+                        Guestbook
+                    </a>
+                </li>
             </ul>
             <hr />
             <div class="dropdown">
