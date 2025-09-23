@@ -31,6 +31,14 @@
         background-color: #10B981 !important;
     }
 
+    .navbar a {
+        color: white !important;
+    }
+
+    footer {
+        background-color: #10B981 !important;
+    }
+
     body {
         background-color: #f9fafb;
     }
@@ -58,8 +66,8 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container-fluid" style="padding: 0 8rem">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    HealthGo
+                <a class="navbar-brand fw-bold" href="{{ url('/') }}">
+                    CureMart
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -124,6 +132,73 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <div class="b-example-divider"></div>
+
+        {{-- FEEDBACK --}}
+        {{-- <footer class="py-4 mt-3 border-top">
+            <div class="container">
+                <p class="fs-4 fw-bold text-white">Biar kami makin oke, tulis pesan/saran di bawah!</p>
+                <input class="form-control mb-3" type="text" placeholder="John Doe"
+                    aria-label="default input example">
+                <textarea class="form-control mb-3" id="exampleFormControlTextarea1" rows="3"
+                    placeholder="Produknya beragam, respon cepet banget!"></textarea>
+                <button class="btn btn-success d-inline-block">Kirim!</button>
+            </div>
+        </footer> --}}
+        {{-- FEEDBACK --}}
+
+        {{-- COMMENT --}}
+        <footer class="py-4 mt-3 border-top">
+            <div class="container">
+                <div class="form-area">
+
+                    <p class="fs-4 fw-bold text-white">Biar kami makin oke, tulis pesan/saran di bawah!</p>
+                    <input class="form-control mb-3" type="text" placeholder="John Doe"
+                        aria-label="default input example">
+                    <textarea class="form-control mb-3" id="exampleFormControlTextarea1" rows="3"
+                        placeholder="Produknya beragam, respon cepet banget!"></textarea>
+                    <button class="btn btn-success d-inline-block">Kirim!</button>
+                </div>
+                <div class="comments-area mt-4">
+                    <h4 class="text-white fw-bold mb-2">Beberapa komentar lainnya!</h4>
+                    <div class="lists ps-3">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5>
+                                    {{ 'john doe' }} <span class="fs-6 text-body-secondary">pada
+                                        {{ '24 feb 2025' }}</span>
+                                </h5>
+                                <p class="m-0">lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                    voluptatibus, beatae!</p>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5>
+                                    {{ 'john doe' }} <span class="fs-6 text-body-secondary">pada
+                                        {{ '24 feb 2025' }}</span>
+                                </h5>
+                                <p class="m-0">lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                    voluptatibus, beatae!</p>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5>
+                                    {{ 'john doe' }} <span class="fs-6 text-body-secondary">pada
+                                        {{ '24 feb 2025' }}</span>
+                                </h5>
+                                <p class="m-0">lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                    voluptatibus, beatae!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        {{-- COMMENT --}}
+
     </div>
 </body>
 
