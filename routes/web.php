@@ -32,6 +32,7 @@ Route::get('/products', [ProductController::class, 'index'])->middleware('auth')
 // Cart
 Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name("cart.index");
 Route::post('/cart', [CartController::class, 'addToCart'])->middleware('auth')->name("cart.addToCart");
+Route::post('/cart/checkout', [CartController::class, 'checkout'])->middleware('auth')->name('cart.checkout');
 Route::delete('/cart/{id}', [CartController::class, 'removeItem'])->middleware('auth')->name('cart.removeItem');
 Route::post('/cart/update', [CartController::class, 'updateQty'])->middleware('auth')->name('cart.update');
 
@@ -85,7 +86,6 @@ Route::post('/admin/users/province', [UserController::class, 'province'])->name(
 
 Route::get('/admin/users/{user:id}', [UserController::class, 'show'])->middleware(['auth', 'admin'])->name('admin.user.show');
 
-
 Route::delete('/admin/users/{user:id}', [UserController::class, 'delete'])->middleware(['auth', 'admin'])->name('admin.user.delete');
 
 // Orders Control
@@ -99,3 +99,5 @@ Route::get('/admin/guestbook', [GuestbookController::class, 'index'])->middlewar
 Route::post('/guestbook/create', [GuestbookController::class, 'store'])->name('guestbook.store');
 
 Route::delete('/admin/guestbook/{guestbook:id}', [GuestbookController::class, 'delete'])->middleware(['auth', 'admin'])->name('admin.guestbook.delete');
+Route::get('/admin/orders', [OrderController::class, 'admin_index'])->middleware(['auth', 'admin'])->name('admin.orders');
+Route::post('/order/confirm/{id}', [OrderController::class, 'confirm_order'])->middleware(['auth', 'admin'])->name('order.confirm_order');

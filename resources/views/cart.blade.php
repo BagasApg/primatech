@@ -56,10 +56,10 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <p class="fs-5">Total Belanja (termasuk pajak): <span class="text-decoration-underline">
                             @currency($total_price)</span></p>
-                    <form id="checkoutForm">
+                    <form method="POST" action="{{ route('cart.checkout') }}">
                         @csrf
                         <input type="hidden" name="grand_total" value="{{ $total_price }}">
-                        <button class="btn btn-primary" type="submit">Order & Print PDF</button>
+                        <button class="btn btn-primary" type="submit">Checkout</button>
                     </form>
                 </div>
             </div>
@@ -67,36 +67,6 @@
     </div>
 
     <script>
-        $('#checkoutForm').on('submit', function(e) {
-            e.preventDefault();
-
-            $.ajax({
-                type: "POST",
-                url: "{{ route('order.store') }}",
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    grand_total: {{ $total_price }}
-                },
-                success: function(response) {
-                    if (response.snap_token) {
-                        snap.pay(response.snap_token, {
-                            onSuccess: function(result) {
-                                window.location.href = `/invoice/${response.order_id}`
-                            },
-                            onPending: function(result) {
-                                window.location.href = '/order'
-                            },
-                            onError: function(result) {
-                                alert('gagal');
-                            }
-                        })
-                    }
-                },
-                error: function(xhr) {
-                    alert('gagal memproses pesanan.');
-                }
-            });
-        })
 
         $(".btn-plus, .btn-minus").on('click', function() {
            let id = $(this).data('id')

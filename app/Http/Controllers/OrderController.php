@@ -19,22 +19,41 @@ class OrderController extends Controller
         return view("order", compact("orders"));
     }
 
+    public function admin_index()
+    {
+        $orders = Order::get();
+        return view('admin.orders.index', compact('orders'));
+    }
+
+
     public function store(Request $request)
     {
         $cart = Cart::where('user_id', Auth::user()->id)->get();
+        $order = Order::find($request->order_id);
+        // dd($order);
 
         if (count($cart) > 0) {
 
-            $midtransOrderId = 'ORDER-' . time();
+            // $midtransOrderId = 'ORDER-' . time();
 
-            $order = new Order();
-            $order->order_id = $midtransOrderId;
-            $order->user_id = Auth::user()->id;
-            $order->order_date = Carbon::now();
-            $order->total_product = count($cart);
-            $order->grand_total = $request->grand_total;
-            $order->payment_status = 'pending';
-            $order->save();
+            // $order = new Order();
+            // $order->order_id = $midtransOrderId;
+            // $order->user_id = Auth::user()->id;
+            // $order->order_date = Carbon::now();
+            // $order->total_product = count($cart);
+            // $order->grand_total = $request->grand_total;
+            // $order->confirmation_status = 'waiting';
+            // $order->payment_status = 'pending';
+            // $order->save();
+            // $order = new Order();
+            // $order->order_id = $midtransOrderId;
+            // $order->user_id = Auth::user()->id;
+            // $order->order_date = Carbon::now();
+            // $order->total_product = count($cart);
+            // $order->grand_total = $request->grand_total;
+            // $order->confirmation_status = 'waiting';
+            // $order->payment_status = 'pending';
+            // $order->save();
 
             $item_details = [];
 
@@ -68,7 +87,7 @@ class OrderController extends Controller
             // create snapToken
             $params = [
                 'transaction_details' => [
-                    'order_id' => $midtransOrderId,
+                    'order_id' => $order->order_id,
                     'gross_amount' => $request->grand_total,
                 ],
                 'customer_details' => [
@@ -79,6 +98,7 @@ class OrderController extends Controller
             ];
 
             $snap = Snap::createTransaction($params);
+            // dd($snap);
 
             // save snapToken and payment type
             $order->snap_token = $snap->token;
@@ -133,5 +153,19 @@ class OrderController extends Controller
         $order->save();
 
         return response()->json(['message' => 'Callback processed'], 200);
+    }
+
+    public function confirm_order(Request $request, $id)
+    {
+        $order = Order::find($id);
+
+        if ($request->confirmation == 'approve') {
+            $order->confirmation_status = 'confirmed';
+        } else if ($request->confirmation == 'reject') {
+            $order->confirmation_status = 'canceled';
+        }
+        $order->save();
+
+        return response()->json(['message' => 'Confirmation'], 200);
     }
 }
