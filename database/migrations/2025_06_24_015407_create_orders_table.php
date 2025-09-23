@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer("total_product");
             $table->integer("grand_total");
             $table->string("confirmation_status");
+            $table->boolean("isShipped")->default(false);
             $table->timestamps();
         });
     }

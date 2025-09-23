@@ -169,4 +169,14 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'Confirmation'], 200);
     }
+
+    public function ship_order($id)
+    {
+        $order = Order::find($id);
+
+        $order->isShipped = true;
+        $order->save();
+
+        return response()->json(['message' => 'Shipped'], 200);
+    }
 }

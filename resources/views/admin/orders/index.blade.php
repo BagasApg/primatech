@@ -30,8 +30,12 @@
                                 onClick="approveOrder({{ $order->id }}, 'reject')">Reject</button>
                         </td>
                     @elseif ($order->confirmation_status == 'confirmed')
-                        <td><span class="badge bg-success">Paid</span></td>
-                        <td><button class="btn btn-success">Ship</button></td>
+                        <td><span class="badge bg-success">confirmed</span></td>
+                        @if ($order->isShipped == false && $order->payment_status == 'paid' && $order->snap_token != null)
+                            <td><button class="btn btn-success" onClick="shipOrder({{ $order->id }})">Ship</button></td>
+                        @else
+                            <td><span class="badge bg-success">Shipped</span></td>
+                        @endif
                     @else
                         <td><span class="badge bg-danger">Rejected</span></td>
                         <td><span class="badge bg-danger">Rejected</span></td>
@@ -59,6 +63,20 @@
                     console.log(response);
                 }
 
+            })
+        }
+
+        function shipOrder(order_id) {
+            $.ajax({
+                type: "POST",
+                url: `/order/ship/${order_id}`,
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    order_id: order_id,
+                },
+                success: function(response) {
+                    window.location.href = '/admin/orders';
+                }
             })
         }
     </script>

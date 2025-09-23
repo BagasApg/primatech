@@ -89,3 +89,4 @@ Route::delete('/admin/users/{user:id}', [UserController::class, 'delete'])->midd
 // Orders Control
 Route::get('/admin/orders', [OrderController::class, 'admin_index'])->middleware(['auth', 'admin'])->name('admin.orders');
 Route::post('/order/confirm/{id}', [OrderController::class, 'confirm_order'])->middleware(['auth', 'admin'])->name('order.confirm_order');
+Route::post('/order/ship/{id}', [OrderController::class, 'ship_order'])->middleware(['auth', 'admin'])->name('order.ship_order');

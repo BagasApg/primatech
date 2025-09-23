@@ -29,7 +29,11 @@
                         @if ($order->confirmation_status == 'waiting')
                             <td><span class="badge bg-warning">Waiting</span></td>
                         @elseif ($order->confirmation_status == 'confirmed')
-                            <td><span class="badge bg-success">Confirmed</span></td>
+                            @if ($order->isShipped)
+                                <td><span class="badge bg-success">Shipped</span></td>
+                            @else
+                                <td><span class="badge bg-success">Confirmed</span></td>
+                            @endif
                         @else
                             <td><span class="badge bg-danger">Canceled</span></td>
                         @endif
@@ -51,7 +55,7 @@
                                         <input type="hidden" name="grand_total" value="{{ $order->grand_total }}"
                                             id="grand_total">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}" id="order_id">
-                                        <button class="btn btn-warning" id="pay_cart" type="submit">Pay pakde</button>
+                                        <button class="btn btn-warning" id="pay_cart" type="submit">Pay</button>
                                     </form>
                                 </td>
                             @endif
