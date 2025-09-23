@@ -8,35 +8,57 @@
             </div>
         </div>
         <div class="row">
-            <table class="table fs-5">
-                <tr>
+            <table class="table table-bordered table-stripped fs-5">
+                <tr class="text-center">
                     <th style="width: 10%">No.</th>
                     <th>Order ID</th>
                     <th>Tanggal</th>
                     <th>Qty.</th>
                     <th>Total</th>
-                    <th style="width:10%"></th>
+                    <th>Status</th>
+                    <th style="width:10%" class="text-center">Action</th>
                 </tr>
                 {{-- Loop here --}}
                 @foreach ($orders as $order)
-                    <tr class="align-middle">
+                    <tr class="align-middle text-center">
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $order->order_id }}</td>
                         <td>{{ $order->order_date }}</td>
                         <td>{{ $order->total_product }}</td>
                         <td>@currency($order->grand_total)</td>
-                        <td class="text-center">
-                            @if ($order->payment_status == 'pending')
-                                <button class="btn btn-warning pay-now"
-                                    data-token="{{ $order->snap_token }}" data-order_id="{{ $order->order_id }}">Pay</button>
+                        @if($order->confirmation_status == 'waiting')
+                            <td><span class="badge bg-warning">Waiting</span></td>
+                        @elseif ($order->confirmation_status == 'confirmed')
+                            <td><span class="badge bg-success">Confirmed</span></td>
+                        @else
+                            <td><span class="badge bg-danger">Canceled</span></td>
+                        @endif
+
+                        @if($order->confirmation_status == 'confirmed')
+                            @if ($order->payment_status == 'pending' && $order->snap_token != null)
+                                <td class="text-center"><button class="btn btn-warning pay-now"
+                                data-token="{{ $order->snap_token }}" data-order_id="{{ $order->order_id }}">Pay</button></td>
                             @elseif ($order->payment_status == 'paid')
-                                <a href="{{ route('invoice.index', $order->order_id) }}">
-                                    <div class="btn btn-primary">Print</div>
-                                </a>
+                                <td class="text-center"><a href="{{ route('invoice.index', $order->order_id) }}">
+                                <div class="btn btn-primary">Print</div>
+                                </a></td>
                             @else
-                                <span class="text-muted">Status: {{ $order->payment_status }}</span>
+                                {{-- <td class="text-center"><span class="text-muted">Status: {{ $order->payment_status }}</span></td> --}}
+                                <td class="text-center">
+                                <form id="checkoutForm">
+                                    @csrf
+                                    <input type="hidden" name="grand_total" value="{{ $order->grand_total }}" id="grand_total">
+                                    <input type="hidden" name="order_id" value="{{ $order->id }}" id="order_id">
+                                    <button class="btn btn-warning" type="submit">Pay</button>
+                                </form>
+                                </td>
                             @endif
-                        </td>
+                        @elseif ($order->confirmation_status == 'waiting')
+                            <td class="text-center"><button class="btn btn-warning pay-now disabled"
+                            data-token="{{ $order->snap_token }}" data-order_id="{{ $order->order_id }}">Pay</button></td>
+                        @else
+                            <td class="text-center"><span class="badge bg-danger">Canceled</span></td>
+                        @endif
                     </tr>
                 @endforeach
                 {{-- Loop here --}}
@@ -50,6 +72,41 @@
         e.preventDefault();
         console.log($(this).data('token'));
     });
+
+        $('#checkoutForm').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "{{ route('order.store') }}",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    grand_total: $('#grand_total').val(),
+                    order_id: $('#order_id').val(),
+                },
+                success: function(response) {
+                    if (response.snap_token) {
+                        snap.pay(response.snap_token, {
+                            onSuccess: function(result) {
+                                window.location.href = `/invoice/${response.order_id}`
+                            },
+                            onPending: function(result) {
+                                window.location.href = '/order'
+                            },
+                            onError: function(result) {
+                                alert('gagal');
+                            },
+                            onClose: function() {
+                                alert('refreshed')
+                                window.location.href = '/order'
+                            },
+                        })
+                    }
+                },
+                error: function(xhr) {
+                    alert('gagal memproses pesanan.');
+                }
+            });
+        })
 
         $('.pay-now').on('click', function(e) {
             e.preventDefault();
