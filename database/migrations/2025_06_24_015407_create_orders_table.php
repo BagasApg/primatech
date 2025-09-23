@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date("order_date");
             $table->integer("total_product");
             $table->integer("grand_total");
+            $table->string("confirmation_status");
             $table->timestamps();
         });
     }
