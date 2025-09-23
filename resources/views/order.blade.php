@@ -26,7 +26,7 @@
                         <td>{{ $order->order_date }}</td>
                         <td>{{ $order->total_product }}</td>
                         <td>@currency($order->grand_total)</td>
-                        @if($order->confirmation_status == 'waiting')
+                        @if ($order->confirmation_status == 'waiting')
                             <td><span class="badge bg-warning">Waiting</span></td>
                         @elseif ($order->confirmation_status == 'confirmed')
                             <td><span class="badge bg-success">Confirmed</span></td>
@@ -34,28 +34,31 @@
                             <td><span class="badge bg-danger">Canceled</span></td>
                         @endif
 
-                        @if($order->confirmation_status == 'confirmed')
+                        @if ($order->confirmation_status == 'confirmed')
                             @if ($order->payment_status == 'pending' && $order->snap_token != null)
                                 <td class="text-center"><button class="btn btn-warning pay-now"
-                                data-token="{{ $order->snap_token }}" data-order_id="{{ $order->order_id }}">Pay</button></td>
+                                        data-token="{{ $order->snap_token }}"
+                                        data-order_id="{{ $order->order_id }}">Pay</button></td>
                             @elseif ($order->payment_status == 'paid')
                                 <td class="text-center"><a href="{{ route('invoice.index', $order->order_id) }}">
-                                <div class="btn btn-primary">Print</div>
-                                </a></td>
+                                        <div class="btn btn-primary">Print</div>
+                                    </a></td>
                             @else
                                 {{-- <td class="text-center"><span class="text-muted">Status: {{ $order->payment_status }}</span></td> --}}
                                 <td class="text-center">
-                                <form id="checkoutForm">
-                                    @csrf
-                                    <input type="hidden" name="grand_total" value="{{ $order->grand_total }}" id="grand_total">
-                                    <input type="hidden" name="order_id" value="{{ $order->id }}" id="order_id">
-                                    <button class="btn btn-warning" type="submit">Pay</button>
-                                </form>
+                                    <form id="checkoutForm">
+                                        @csrf
+                                        <input type="hidden" name="grand_total" value="{{ $order->grand_total }}"
+                                            id="grand_total">
+                                        <input type="hidden" name="order_id" value="{{ $order->id }}" id="order_id">
+                                        <button class="btn btn-warning" id="pay_cart" type="submit">Pay pakde</button>
+                                    </form>
                                 </td>
                             @endif
                         @elseif ($order->confirmation_status == 'waiting')
                             <td class="text-center"><button class="btn btn-warning pay-now disabled"
-                            data-token="{{ $order->snap_token }}" data-order_id="{{ $order->order_id }}">Pay</button></td>
+                                    data-token="{{ $order->snap_token }}"
+                                    data-order_id="{{ $order->order_id }}">Pay</button></td>
                         @else
                             <td class="text-center"><span class="badge bg-danger">Canceled</span></td>
                         @endif
@@ -67,64 +70,102 @@
     </div>
 
     <script>
-    $(document).ready(function () {
-    $(".pay-now").click(function (e) {
-        e.preventDefault();
-        console.log($(this).data('token'));
-    });
-
-        $('#checkoutForm').on('submit', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: "POST",
-                url: "{{ route('order.store') }}",
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    grand_total: $('#grand_total').val(),
-                    order_id: $('#order_id').val(),
-                },
-                success: function(response) {
-                    if (response.snap_token) {
-                        snap.pay(response.snap_token, {
-                            onSuccess: function(result) {
-                                window.location.href = `/invoice/${response.order_id}`
-                            },
-                            onPending: function(result) {
-                                window.location.href = '/order'
-                            },
-                            onError: function(result) {
-                                alert('gagal');
-                            },
-                            onClose: function() {
-                                alert('refreshed')
-                                window.location.href = '/order'
-                            },
-                        })
+        console.log("A");
+        $(document).ready(function() {
+            $(".pay-now").click(function(e) {
+                e.preventDefault();
+                const token = $(this).data('token');
+                const order_id = $(this).data('order_id');
+                snap.pay(token, {
+                    onSuccess: function(result) {
+                        window.location.href = `/invoice/${order_id}`;
+                    },
+                    onPending: function(result) {
+                        window.location.href = "{{ route('order.index') }}"
+                    },
+                    onError: function(result) {
+                        alert('Gagal');
                     }
-                },
-                error: function(xhr) {
-                    alert('gagal memproses pesanan.');
-                }
+                })
             });
-        })
 
-        $('.pay-now').on('click', function(e) {
-            e.preventDefault();
-            const token = $(this).data('token');
-            const order_id = $(this).data('order_id');
-            snap.pay(token, {
-                onSuccess: function(result) {
-                    window.location.href = `/invoice/${order_id}`;
-                },
-                onPending: function(result) {
-                    window.location.href = "{{ route('order.index') }}"
-                },
-                onError: function(result) {
-                    alert('Gagal');
-                }
+
+            $('#checkoutForm').on('submit', function(e) {
+
+                console.log($('#order_id').val())
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('order.store') }}",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        grand_total: $('#grand_total').val(),
+                        order_id: $('#order_id').val(),
+                    },
+                    success: function(response) {
+                        if (response.snap_token) {
+                            snap.pay(response.snap_token, {
+                                onSuccess: function(result) {
+                                    window.location.href =
+                                        `/invoice/${response.order_id}`
+                                },
+                                onPending: function(result) {
+                                    window.location.href = '/order'
+                                },
+                                onError: function(result) {
+                                    alert('gagal');
+                                    console.log(result);
+                                },
+                                onClose: function() {
+                                    alert('refreshed')
+                                    window.location.href = '/order'
+                                },
+                            })
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('gagal memproses pesanan.');
+                    }
+                });
             })
-        })
+        });
 
-    });
+
+        // $('#checkoutForm').on('submit', function(e) {
+        //     console.log($('#order_id').val())
+        //     e.preventDefault();
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "{{ route('order.store') }}",
+        //         data: {
+        //             _token: '{{ csrf_token() }}',
+        //             grand_total: $('#grand_total').val(),
+        //             order_id: $('#order_id').val(),
+        //         },
+        //         success: function(response) {
+        //             if (response.snap_token) {
+        //                 snap.pay(response.snap_token, {
+        //                     onSuccess: function(result) {
+        //                         window.location.href =
+        //                             `/invoice/${response.order_id}`
+        //                     },
+        //                     onPending: function(result) {
+        //                         window.location.href = '/order'
+        //                     },
+        //                     onError: function(result) {
+        //                         alert('gagal');
+        //                     },
+        //                     onClose: function() {
+        //                         alert('refreshed')
+        //                         window.location.href = '/order'
+        //                     },
+        //                 })
+        //             }
+        //         },
+        //         error: function(xhr) {
+        //             alert('gagal memproses pesanan.');
+        //         }
+        //     });
+        // })
     </script>
 @endsection

@@ -30,90 +30,91 @@ class OrderController extends Controller
     {
         $cart = Cart::where('user_id', Auth::user()->id)->get();
         $order = Order::find($request->order_id);
-        // dd($order);
 
-        if (count($cart) > 0) {
+        // if (count($cart) > 0) {
+        // dd($request->grand_total);
 
-            // $midtransOrderId = 'ORDER-' . time();
+        // $midtransOrderId = 'ORDER-' . time();
 
-            // $order = new Order();
-            // $order->order_id = $midtransOrderId;
-            // $order->user_id = Auth::user()->id;
-            // $order->order_date = Carbon::now();
-            // $order->total_product = count($cart);
-            // $order->grand_total = $request->grand_total;
-            // $order->confirmation_status = 'waiting';
-            // $order->payment_status = 'pending';
-            // $order->save();
-            // $order = new Order();
-            // $order->order_id = $midtransOrderId;
-            // $order->user_id = Auth::user()->id;
-            // $order->order_date = Carbon::now();
-            // $order->total_product = count($cart);
-            // $order->grand_total = $request->grand_total;
-            // $order->confirmation_status = 'waiting';
-            // $order->payment_status = 'pending';
-            // $order->save();
+        // $order = new Order();
+        // $order->order_id = $midtransOrderId;
+        // $order->user_id = Auth::user()->id;
+        // $order->order_date = Carbon::now();
+        // $order->total_product = count($cart);
+        // $order->grand_total = $request->grand_total;
+        // $order->confirmation_status = 'waiting';
+        // $order->payment_status = 'pending';
+        // $order->save();
+        // $order = new Order();
+        // $order->order_id = $midtransOrderId;
+        // $order->user_id = Auth::user()->id;
+        // $order->order_date = Carbon::now();
+        // $order->total_product = count($cart);
+        // $order->grand_total = $request->grand_total;
+        // $order->confirmation_status = 'waiting';
+        // $order->payment_status = 'pending';
+        // $order->save();
 
-            $item_details = [];
+        $item_details = [];
 
-            foreach ($cart as $item) {
-                $order_detail = new OrderDetail();
-                $order_detail->order_id = $order->id;
-                $order_detail->product_id = $item->product_id;
-                $order_detail->qty =  $item->qty;
-                $order_detail->unit_price = $item->product->price;
-                $order_detail->total_price = $item->product->price * $item->qty;
+        foreach ($cart as $item) {
+            $order_detail = new OrderDetail();
+            $order_detail->order_id = $order->id;
+            $order_detail->product_id = $item->product_id;
+            $order_detail->qty =  $item->qty;
+            $order_detail->unit_price = $item->product->price;
+            $order_detail->total_price = $item->product->price * $item->qty;
 
-                Cart::destroy($item->id);
+            Cart::destroy($item->id);
 
-                // add to midtrans
-                $item_details[] = [
-                    'id' => $item->product_id,
-                    'price' => $item->product->price,
-                    'quantity' => $item->qty,
-                    'name' => $item->product->name,
-                ];
-
-                $order_detail->save();
-            }
-
-            // midtrans configuration
-            Config::$serverKey = config('midtrans.server_key');
-            Config::$isProduction = config('midtrans.is_production');
-            Config::$isSanitized = config('midtrans.is_sanitazed');
-            Config::$is3ds = config('midtrans.is_3ds');
-
-            // create snapToken
-            $params = [
-                'transaction_details' => [
-                    'order_id' => $order->order_id,
-                    'gross_amount' => $request->grand_total,
-                ],
-                'customer_details' => [
-                    'first_name' => Auth::user()->name,
-                    'email' => Auth::user()->profile->email
-                ],
-                'item_details' => $item_details,
+            // add to midtrans
+            $item_details[] = [
+                'id' => $item->product_id,
+                'price' => $item->product->price,
+                'quantity' => $item->qty,
+                'name' => $item->product->name,
             ];
 
-            $snap = Snap::createTransaction($params);
-            // dd($snap);
-
-            // save snapToken and payment type
-            $order->snap_token = $snap->token;
-            $order->payment_type = $snap->payment_type ?? null;
-            $order->save();
-
-            // send snaptoken to jquery
-            return response()->json([
-                'snap_token' => $snap->token,
-                'order_id' => $order->order_id,
-            ]);
-            // return redirect()->route('invoice.index', $order->id);
-        } else {
-            return redirect()->back();
+            $order_detail->save();
         }
+
+        // midtrans configuration
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
+        Config::$isSanitized = config('midtrans.is_sanitazed');
+        Config::$is3ds = config('midtrans.is_3ds');
+
+        // create snapToken
+        $params = [
+            'transaction_details' => [
+                'order_id' => $order->order_id,
+                'gross_amount' => $request->grand_total,
+            ],
+            'customer_details' => [
+                'first_name' => Auth::user()->name,
+                'email' => Auth::user()->profile->email
+            ],
+            'item_details' => $item_details,
+        ];
+
+        $snap = Snap::createTransaction($params);
+        // dd($snap);
+
+        // save snapToken and payment type
+        $order->snap_token = $snap->token;
+        $order->payment_type = $snap->payment_type ?? null;
+        $order->save();
+
+        // send snaptoken to jquery
+        // dd($snap);
+        return response()->json([
+            'snap_token' => $snap->token,
+            'order_id' => $order->order_id,
+        ]);
+        // return redirect()->route('invoice.index', $order->id);
+        // } else {
+        // return redirect()->back();
+        // }
     }
 
     public function callback(Request $request)

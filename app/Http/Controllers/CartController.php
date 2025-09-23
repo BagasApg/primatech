@@ -55,9 +55,9 @@ class CartController extends Controller
             $order->payment_status = 'pending';
             $order->save();
 
-            foreach ($cart as $items) {
-                $items->delete();
-            }
+            // foreach ($cart as $items) {
+            //     $items->delete();
+            // }
 
             return redirect()->route('order.index')->with('success', 'Success checkout');
         } else {
