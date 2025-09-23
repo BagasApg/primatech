@@ -84,10 +84,8 @@ Route::post('/admin/users/province', [UserController::class, 'province'])->name(
 
 Route::get('/admin/users/{user:id}', [UserController::class, 'show'])->middleware(['auth', 'admin'])->name('admin.user.show');
 
-
 Route::delete('/admin/users/{user:id}', [UserController::class, 'delete'])->middleware(['auth', 'admin'])->name('admin.user.delete');
 
 // Orders Control
-Route::get('/admin/orders', function () {
-    return view('admin.orders.index');
-})->middleware(['auth', 'admin'])->name('admin.orders');
+Route::get('/admin/orders', [OrderController::class, 'admin_index'])->middleware(['auth', 'admin'])->name('admin.orders');
+Route::post('/order/confirm/{id}', [OrderController::class, 'confirm_order'])->middleware(['auth', 'admin'])->name('order.confirm_order');

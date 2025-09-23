@@ -36,12 +36,14 @@ class CartController extends Controller
         return redirect()->route('product.index')->with('success', "Successfully added a new item to cart");
     }
 
-    public function checkout(Request $request) {
+    public function checkout(Request $request)
+    {
         $cart = Cart::where('user_id', Auth::user()->id)->get();
 
         if (count($cart) > 0) {
 
             $midtransOrderId = 'ORDER-' . time();
+
 
             $order = new Order();
             $order->order_id = $midtransOrderId;
@@ -53,13 +55,18 @@ class CartController extends Controller
             $order->payment_status = 'pending';
             $order->save();
 
+            foreach ($cart as $items) {
+                $items->delete();
+            }
+
             return redirect()->route('order.index')->with('success', 'Success checkout');
         } else {
             return redirect()->back();
         }
     }
 
-    public function updateQty(Request $request) {
+    public function updateQty(Request $request)
+    {
         $cart = Cart::findOrFail($request->id);
         if ($request->type == 'plus') {
             $cart->qty += 1;
@@ -72,7 +79,7 @@ class CartController extends Controller
         }
 
         if ($request->type === 'minus') {
-             if ($cart->qty > 1) {
+            if ($cart->qty > 1) {
                 $cart->qty -= 1;
                 $cart->save();
 
@@ -88,10 +95,10 @@ class CartController extends Controller
                 ]);
             }
         }
-
     }
 
-    public function removeItem($id) {
+    public function removeItem($id)
+    {
         $cart = Cart::find($id);
         $cart->delete();
 

@@ -19,6 +19,12 @@ class OrderController extends Controller
         return view("order", compact("orders"));
     }
 
+    public function admin_index()
+    {
+        $orders = Order::get();
+        return view('admin.orders.index', compact('orders'));
+    }
+
 
     public function store(Request $request)
     {
@@ -138,5 +144,19 @@ class OrderController extends Controller
         $order->save();
 
         return response()->json(['message' => 'Callback processed'], 200);
+    }
+
+    public function confirm_order(Request $request, $id)
+    {
+        $order = Order::find($id);
+
+        if ($request->confirmation == 'approve') {
+            $order->confirmation_status = 'confirmed';
+        } else if ($request->confirmation == 'reject') {
+            $order->confirmation_status = 'canceled';
+        }
+        $order->save();
+
+        return response()->json(['message' => 'Confirmation'], 200);
     }
 }
